@@ -78,6 +78,14 @@ auto make_protocol_definitions(PWMMapping_t& mapping) {
     );
 }
 
+auto make_protocol_definitions(PWMMappingLimiter_t& mapping) {
+    return make_protocol_member_list(
+        make_protocol_property("min", &mapping.min),
+        make_protocol_property("value", &mapping.value),
+        make_protocol_property("max", &mapping.max)
+    );
+}
+
 /* Function implementations --------------------------------------------------*/
 
 void init_communication(void) {
@@ -160,11 +168,14 @@ static inline auto make_obj_tree() {
             make_protocol_property("dc_bus_overvoltage_trip_level", &board_config.dc_bus_overvoltage_trip_level),
 #if HW_VERSION_MAJOR == 3 && HW_VERSION_MINOR >= 3
             make_protocol_object("gpio1_pwm_mapping", make_protocol_definitions(board_config.pwm_mappings[0])),
+            make_protocol_object("gpio1_pwm_mapping_limiter", make_protocol_definitions(board_config.pwm_mappings_limiter[0])),
             make_protocol_object("gpio2_pwm_mapping", make_protocol_definitions(board_config.pwm_mappings[1])),
+            make_protocol_object("gpio2_pwm_mapping_limiter", make_protocol_definitions(board_config.pwm_mappings_limiter[1])),
             make_protocol_object("gpio3_pwm_mapping", make_protocol_definitions(board_config.pwm_mappings[2])),
+            make_protocol_object("gpio3_pwm_mapping_limiter", make_protocol_definitions(board_config.pwm_mappings_limiter[2])),
 #endif
             make_protocol_object("gpio4_pwm_mapping", make_protocol_definitions(board_config.pwm_mappings[3])),
-
+            make_protocol_object("gpio4_pwm_mapping_limiter", make_protocol_definitions(board_config.pwm_mappings_limiter[3])),
             make_protocol_object("gpio3_analog_mapping", make_protocol_definitions(board_config.analog_mappings[2])),
             make_protocol_object("gpio4_analog_mapping", make_protocol_definitions(board_config.analog_mappings[3]))
             ),

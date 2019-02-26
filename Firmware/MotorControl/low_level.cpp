@@ -697,9 +697,12 @@ void handle_pulse(int gpio_num, uint32_t high_time) {
     if (high_time > PWM_MAX_HIGH_TIME)
         high_time = PWM_MAX_HIGH_TIME;
     float fraction = (float)(high_time - PWM_MIN_HIGH_TIME) / (float)(PWM_MAX_HIGH_TIME - PWM_MIN_HIGH_TIME);
+    
+    if (fraction > board_config.pwm_mappings_limiter[gpio_num - 1].min && fraction < board_config.pwm_mappings_limiter[gpio_num - 1].max)
+        fraction = board_config.pwm_mappings_limiter[gpio_num - 1].value;
+
     float value = board_config.pwm_mappings[gpio_num - 1].min +
                   (fraction * (board_config.pwm_mappings[gpio_num - 1].max - board_config.pwm_mappings[gpio_num - 1].min));
-
     Endpoint* endpoint = get_endpoint(board_config.pwm_mappings[gpio_num - 1].endpoint);
     if (!endpoint)
         return;

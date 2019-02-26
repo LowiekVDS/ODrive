@@ -66,6 +66,12 @@ struct PWMMapping_t {
     float max = 0;
 };
 
+struct PWMMappingLimiter_t {
+    float min = 0;
+    float value = 0;
+    float max = 0;
+};
+
 // @brief general user configurable board configuration
 struct BoardConfig_t {
     bool enable_uart = true;
@@ -83,6 +89,7 @@ struct BoardConfig_t {
                                                                         //<! The default is 26V for the 24V board version and 52V for the 48V board version.
     PWMMapping_t pwm_mappings[GPIO_COUNT];
     PWMMapping_t analog_mappings[GPIO_COUNT];
+    PWMMappingLimiter_t pwm_mappings_limiter[GPIO_COUNT];
 };
 extern BoardConfig_t board_config;
 extern bool user_config_loaded_;
